@@ -65,3 +65,22 @@ def main():
    
 if __name__ == "__main__":
     main()
+
+
+
+
+
+    ---------------------------
+
+
+line_chart = alt.Chart(df_co2_overtime_filtered).mark_line(
+            color="lightblue",
+            line=True,
+            point=alt.OverlayMarkDef(color="red")
+        ).encode(
+            x='Year',
+            y='Value',
+            color='Location Name',
+            tooltip=['Location Name','Year','Value']
+        )
+st.altair_chart(line_chart, use_container_width=True)
