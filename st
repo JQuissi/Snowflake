@@ -84,3 +84,15 @@ line_chart = alt.Chart(df_co2_overtime_filtered).mark_line(
             tooltip=['Location Name','Year','Value']
         )
 st.altair_chart(line_chart, use_container_width=True)
+
+---------------------------------------
+
+plt.figure(figsize=(10, 6))
+plt.plot(df['Data'], df['consumo_creditos'], marker='o', color='b', label='Consumo de Créditos')
+plt.xlabel('Data')
+plt.ylabel('Consumo de Créditos')
+plt.title('Consumo de Créditos ao Longo do Tempo')
+plt.xticks(rotation=45)
+plt.grid(True)
+plt.legend()
+st.pyplot(plt)
