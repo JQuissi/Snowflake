@@ -24,3 +24,45 @@ Sub ABRE_DB()
     ' Define o tempo limite da consulta
     DB.QueryTimeout = 10000
 End Sub
+
+--------------------------------------------------------------------------
+
+Sub ABRE_DB()
+    Dim senha As String
+    Dim usuario As String
+    Dim DSNName As String
+    
+    ' Nome do DSN ODBC para Snowflake
+    DSNName = "Snowflake32"
+    
+    ' Abre a conexão com o banco de dados
+    Dim conn As Object
+    Set conn = CreateObject("ADODB.Connection")
+    conn.Open "DSN=" & DSNName
+    
+    ' Obtém o usuário e a senha do DSN
+    usuario = conn.Properties("UID")
+    senha = conn.Properties("PWD")
+    
+    ' Fecha a conexão com o DSN
+    conn.Close
+    
+    ' Define o tipo de banco de dados como ODBC
+    DBEngine.DefaultType = dbUseODBC
+    
+    ' Constrói a string de conexão
+    Dim connStr As String
+    connStr = "ODBC;DSN=" & DSNName & ";UID=" & usuario & ";PWD=" & senha
+    
+    ' Abre a conexão com o banco de dados
+    Dim Ws_BD As Workspace
+    Dim DB As Database
+    Set Ws_BD = Workspaces(0)
+    Set DB = Ws_BD.OpenConnection("ODBC", dbDriverNoPrompt, False, connStr)
+    
+    ' Inicia a transação
+    Ws_BD.BeginTrans
+    
+    ' Define o tempo limite da consulta
+    DB.QueryTimeout = 10000
+End Sub
