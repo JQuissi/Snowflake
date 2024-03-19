@@ -1,0 +1,26 @@
+Sub ABRE_DB()
+    Dim senha As String
+    Dim usuario As String
+    
+    senha = "sua_senha" ' Substitua "sua_senha" pela senha do seu usuário
+    usuario = "seu_usuario" ' Substitua "seu_usuario" pelo nome do seu usuário
+    
+    ' Define o tipo de banco de dados como ODBC
+    DBEngine.DefaultType = dbUseODBC
+    
+    ' Define o nome do DSN ODBC para Snowflake
+    Dim DSNName As String
+    DSNName = "Snowflake32"
+    
+    ' Abre a conexão com o banco de dados
+    Dim connStr As String
+    connStr = "ODBC;DSN=" & DSNName & ";UID=" & usuario & ";PWD=" & senha
+    Set Ws_BD = Workspaces(0)
+    Set DB = Ws_BD.OpenConnection("ODBC", dbDriverNoPrompt, False, connStr)
+    
+    ' Inicia a transação
+    Ws_BD.BeginTrans
+    
+    ' Define o tempo limite da consulta
+    DB.QueryTimeout = 10000
+End Sub
