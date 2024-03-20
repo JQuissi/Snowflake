@@ -25,6 +25,48 @@ Sub ABRE_DB()
     DB.QueryTimeout = 10000
 End Sub
 
+---------------------------------------------------------------------
+
+Sub ABRE_DB()
+    Dim senha As String
+    Dim usuario As String
+    Dim conn As Object
+    Dim rs As Object
+    Dim query As String
+    
+    senha = "sua_senha" ' Substitua "sua_senha" pela senha do seu usuário
+    usuario = "seu_usuario" ' Substitua "seu_usuario" pelo nome do seu usuário
+    
+    ' Define a string de conexão ODBC para Snowflake
+    Dim connStr As String
+    connStr = "ODBC;DSN=Snowflake32;UID=" & usuario & ";PWD=" & senha
+    
+    ' Cria o objeto de conexão
+    Set conn = CreateObject("ADODB.Connection")
+    
+    ' Abre a conexão com o banco de dados
+    conn.Open connStr
+    
+    ' Exemplo de consulta
+    query = "SELECT * FROM sua_tabela"
+    
+    ' Cria o objeto de comando
+    Set rs = CreateObject("ADODB.Recordset")
+    
+    ' Executa a consulta
+    rs.Open query, conn
+    
+    ' Se desejar, manipule os resultados da consulta aqui
+    
+    ' Fecha a conexão e os objetos
+    rs.Close
+    conn.Close
+    Set rs = Nothing
+    Set conn = Nothing
+End Sub
+
+connStr = "DRIVER={Snowflake};SERVER=<sua_url_snowflake>;UID=" & usuario & ";PWD=" & senha & ";DB=<seu_banco_de_dados>;WAREHOUSE=<seu_warehouse>;ROLE=<seu_role>"
+
 --------------------------------------------------------------------------
 
 Sub ABRE_DB()
