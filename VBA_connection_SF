@@ -293,4 +293,26 @@ Sub ABRE_DB()
     conn.Close
     Set conn = Nothing
 End Sub
+----------------------------------------------------------------
 
+Sub ABRE_DB()
+    Dim conn As Object
+    
+    ' Cria o objeto de conexão
+    Set conn = CreateObject("ADODB.Connection")
+    
+    ' Abre a conexão
+    conn.Open "Driver={Snowflake};Server=<sua_url_snowflake>;Database=<seu_banco_de_dados>;Warehouse=<seu_warehouse>;UID=<seu_usuario>;PWD=<sua_senha>"
+    
+    ' Inicia a transação
+    conn.BeginTrans
+    
+    ' Define o tempo limite da consulta
+    conn.CommandTimeout = 10000
+    
+    ' Executa consultas SQL aqui se necessário
+    
+    ' Fecha a conexão
+    conn.Close
+    Set conn = Nothing
+End Sub
