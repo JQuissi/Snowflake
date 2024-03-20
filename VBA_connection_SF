@@ -233,61 +233,30 @@ Sub ABRE_DB()
 Sub ABRE_DB()
     Dim senha As String
     Dim usuario As String
-    Dim DSNName As String
     Dim conn As Object
     
-    ' Nome do DSN ODBC para Snowflake
-    DSNName = "Snowflake32"
+    senha = "sua_senha" ' Substitua "sua_senha" pela senha do seu usuário
+    usuario = "seu_usuario" ' Substitua "seu_usuario" pelo nome do seu usuário
     
     ' Abre a conexão com o banco de dados
-    Set conn = CreateObject("ADODB.Connection")
-    conn.Open "DSN=" & DSNName
-    
-    ' Obtém o usuário e a senha do DSN
-    usuario = conn.Properties("UID")
-    senha = conn.Properties("PWD")
-    
-    ' Fecha a conexão com o DSN
-    conn.Close
-    
-    ' Define o tipo de banco de dados como ODBC
-    DBEngine.DefaultType = dbUseODBC
-    
-    ' Constrói a string de conexão
     Dim connStr As String
-    connStr = "ODBC;DSN=" & DSNName & ";UID=" & usuario & ";PWD=" & senha
+    connStr = "ODBC;DSN=Snowflake32;UID=" & usuario & ";PWD=" & senha
     
-    ' Tenta abrir a conexão com o banco de dados
-    Dim success As Boolean
-    On Error Resume Next
-    Dim Ws_BD As Object
-    Dim DB As Object
-    Set Ws_BD = CreateObject("DAO.Workspace")
-    Set DB = Ws_BD.OpenConnection("ODBC", dbDriverNoPrompt, False, connStr)
+    ' Cria o objeto de conexão
+    Set conn = CreateObject("ADODB.Connection")
     
-    If Err.Number = 0 Then
-        success = True
-    Else
-        success = False
-    End If
+    ' Abre a conexão
+    conn.Open connStr
     
-    On Error GoTo 0
+    ' Inicia a transação
+    conn.BeginTrans
     
-    ' Verifica se a conexão foi bem-sucedida
-    If success Then
-        MsgBox "Conexão bem-sucedida!"
-        
-        ' Inicia a transação
-        Ws_BD.BeginTrans
-        
-        ' Define o tempo limite da consulta
-        DB.QueryTimeout = 10000
-    Else
-        MsgBox "Erro ao conectar ao banco de dados."
-    End If
-End Sub
-        DB.QueryTimeout = 10000
-    Else
-        MsgBox "Erro ao conectar ao banco de dados."
-    End If
+    ' Define o tempo limite da consulta
+    conn.CommandTimeout = 10000
+    
+    ' Executa consultas SQL aqui se necessário
+    
+    ' Fecha a conexão
+    conn.Close
+    Set conn = Nothing
 End Sub
