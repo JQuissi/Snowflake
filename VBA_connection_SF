@@ -20,7 +20,39 @@ Sub ABRE_DB()
     
     ' Inicia a transação
     Ws_BD.BeginTrans
+    -------------------------------------------------------
+
+
+Sub ABRE_DB()
+    Dim senha As String
+    Dim usuario As String
+    Dim conn As Object
     
+    senha = "sua_senha" ' Substitua "sua_senha" pela senha do seu usuário
+    usuario = "seu_usuario" ' Substitua "seu_usuario" pelo nome do seu usuário
+    
+    ' Abre a conexão com o banco de dados
+    Dim connStr As String
+    connStr = "ODBC;DSN=Snowflake32;UID=" & usuario & ";PWD=" & senha
+    
+    ' Cria o objeto de conexão
+    Set conn = CreateObject("ADODB.Connection")
+    
+    ' Abre a conexão
+    conn.Open connStr
+    
+    ' Inicia a transação
+    conn.BeginTrans
+    
+    ' Define o tempo limite da consulta
+    conn.CommandTimeout = 10000
+    
+    ' Executa consultas SQL aqui se necessário
+    
+    ' Fecha a conexão
+    conn.Close
+    Set conn = Nothing
+End Sub
     ' Define o tempo limite da consulta
     DB.QueryTimeout = 10000
 End Sub
