@@ -346,3 +346,30 @@ End Sub
 
 
 https://docs.myaltimate.com/setup/reqdConfig/
+
+---------------------------------------------------------
+
+
+Sub ABRE_DB()
+    Dim connStr As String
+    Dim senha As String
+    Dim usuario As String
+    Dim Ws_BD As Workspace
+    Dim DB As Connection
+    
+    ' Configurar informações de conexão
+    senha = "sua_senha" ' Substitua "sua_senha" pela senha
+    usuario = "seu_usuario" ' Substitua "seu_usuario" pelo nome de usuário
+    connStr = "DSN=SeuDSN;UID=" & usuario & ";PWD=" & senha & ";"
+
+    ' Abrir conexão com o Snowflake
+    Set Ws_BD = DBEngine.Workspaces(0)
+    Set DB = Ws_BD.OpenConnection("", dbDriverNoPrompt, False, connStr)
+
+    ' Iniciar transação
+    Ws_BD.BeginTrans
+
+    ' Definir tempo limite de consulta (opcional)
+    DB.QueryTimeout = 10000
+
+End Sub
