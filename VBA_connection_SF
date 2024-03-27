@@ -373,3 +373,37 @@ Sub ABRE_DB()
     DB.QueryTimeout = 10000
 
 End Sub
+
+-----------------------------------------------
+
+
+
+Sub ABRE_DB()
+    Dim connStr As String
+    Dim senha As String
+    Dim usuario As String
+    Dim DB As Object ' Alteração aqui
+
+    ' Configurar informações de conexão
+    senha = "sua_senha" ' Substitua "sua_senha" pela senha
+    usuario = "seu_usuario" ' Substitua "seu_usuario" pelo nome de usuário
+    connStr = "DRIVER={Snowflake};SERVER=sua_url_snowflake;UID=" & usuario & ";PWD=" & senha & ";DB=seu_banco_de_dados;WAREHOUSE=seu_warehouse;ROLE=seu_role"
+
+    ' Abrir conexão com o Snowflake
+    Set DB = CreateObject("ADODB.Connection") ' Alteração aqui
+    DB.Open connStr ' Alteração aqui
+
+    ' Iniciar transação
+    DB.BeginTrans ' Alteração aqui
+
+    ' Definir tempo limite de consulta (opcional)
+    DB.CommandTimeout = 10000 ' Alteração aqui
+
+    ' Outras operações com a conexão aqui
+
+    ' Fechar conexão
+    DB.Close ' Alteração aqui
+    Set DB = Nothing ' Alteração aqui
+
+End Sub
+
